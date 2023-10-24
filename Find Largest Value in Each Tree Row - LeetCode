@@ -1,0 +1,47 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<Integer> largestValues(TreeNode root) {
+        if(root == null) return new ArrayList<>();
+
+        List<Integer> res = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+
+        while(!queue.isEmpty()) {
+            int curr_level_size = queue.size();
+            int max_val = Integer.MIN_VALUE;
+
+
+            for(int i = 0; i < curr_level_size; i++){
+                TreeNode node = queue.poll();
+                max_val = Math.max(max_val, node.val);
+
+
+                 if(node.left != null) queue.offer(node.left);
+                 if(node.right != null) queue.offer(node.right);
+            }
+            res.add(max_val);
+        }
+
+        return res;
+
+     }
+}
+
+// Time complexity: O(n)O(n)O(n). Each node is processed once, and the maximum value at each level is determined in constant time. So, the overall time taken is linear with respect to the number of nodes.
+
+// Space complexity: O(n)O(n)O(n). In the worst case, the queue can hold all leaf nodes. In a balanced binary tree, the last level can have n/2n/2n/2 nodes. Thus, the space complexity is linear.
