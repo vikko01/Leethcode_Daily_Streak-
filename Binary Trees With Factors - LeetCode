@@ -1,0 +1,40 @@
+To solve this problem in Java, you can use dynamic programming.
+It uses dynamic programming to calculate the number of valid binary trees that can be formed with the given integers, taking into account the modulo 10^9 + 7 constraint.
+
+class Solution {
+      private static final int MOD = 1000000007;
+    public int numFactoredBinaryTrees(int[] arr) {
+        Arrays.sort(arr);
+        int n = arr.length;
+        long[] dp = new long[n];
+        Arrays.fill(dp, 1);
+        Map<Integer, Integer> index = new HashMap<>();
+
+        for (int i = 0; i < n; i++) {
+            index.put(arr[i], i);
+        }
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (arr[i] % arr[j] == 0) {
+                    int complement = arr[i] / arr[j];
+                    if (index.containsKey(complement)) {
+                        dp[i] += dp[j] * dp[index.get(complement)];
+                        dp[i] %= MOD;
+                    }
+                }
+            }
+        }
+
+        long result = 0;
+        for (long count : dp) {
+            result += count;
+        }
+
+        return (int) (result % MOD);
+    }
+}
+
+Time complexity: The time complexity of this solution is O(n^2) because we have two nested loops, and n is the length of the input array arr. The map lookup and array operations are generally considered to be O(1) in complexity.
+
+Space complexity: The space complexity is O(n) due to the array dp and the index map.
