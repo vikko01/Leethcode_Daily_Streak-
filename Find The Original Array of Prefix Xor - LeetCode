@@ -1,0 +1,13 @@
+class Solution {
+    public int[] findArray(int[] pref) {
+    // creating a new array having size equal to the gievn pref array 
+        int ans[] = new int [pref.length];
+    // new_arr[0] = pref[0]    
+        ans[0] = pref[0];
+        int n = pref.length;
+        for(int i = n-1; i > 0; i--) {
+            ans [i] = pref[i] ^ pref[i-1];
+        }
+        return ans;
+    }
+}
