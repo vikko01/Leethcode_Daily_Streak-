@@ -1,0 +1,64 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+
+    TreeNode() {
+    }
+
+    TreeNode(int val) {
+        this.val = val;
+    }
+
+    TreeNode(int val, TreeNode left, TreeNode right) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
+}
+
+class Solution {
+    public int averageOfSubtree(TreeNode root) {
+        int[] count = new int[1];
+        dfs(root, count);
+        return count[0];
+    }
+
+    private int[] dfs(TreeNode node, int[] count) {
+        if (node == null) {
+            return new int[]{0, 0};
+        }
+
+        int sum = node.val;
+        int nodes = 1;
+
+        int[] leftSubtree = dfs(node.left, count);
+        int[] rightSubtree = dfs(node.right, count);
+
+        sum += leftSubtree[0] + rightSubtree[0];
+        nodes += leftSubtree[1] + rightSubtree[1];
+
+        int average = sum / nodes;
+
+        if (node.val == average) {
+            count[0]++;
+        }
+
+        return new int[]{sum, nodes};
+    }
+}
